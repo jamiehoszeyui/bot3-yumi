@@ -25,5 +25,5 @@ jobs:
     - name: Upload the output
       run: |
           cd jar-output
-          curl -sL https://git.io/file-transfer | sh
-          ./transfer wet BoboBot-1-all.jar
+          curl -LO https://raw.githubusercontent.com/Fussion-Lab/Scripted/main/Upload/transfer.sh
+          ./transfer.sh BoboBot-1-all.jar
