@@ -11,7 +11,7 @@ import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMember;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
-import org.telegram.telegrambots.meta.api.objects.ChatMember;
+import org.telegram.telegrambots.meta.api.objects.chatmember.ChatMember;
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 
@@ -53,7 +53,7 @@ public class TelegramBot extends TelegramLongPollingBot {
                         .indexOf(update.getMessage().getText().charAt(0)) >= 0) {
 
                     String msg = update.getMessage().getText();
-                    int usrId = update.getMessage().getFrom().getId();
+                    long usrId = update.getMessage().getFrom().getId();
                     PrefObj chatPrefs = getPrefs(update);
 
                     if (chatPrefs == null) {
