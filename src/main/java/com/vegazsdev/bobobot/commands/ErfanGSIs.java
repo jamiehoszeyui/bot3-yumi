@@ -216,7 +216,7 @@ public class ErfanGSIs extends Command {
             while ((line = reader.readLine()) != null) {
                 line = line;
                 if (line.contains("miatoll")) {
-                    line = "MiAtoll (9S and others...)";
+                    line = "Redmi Note 9 Pro";
                 }
                 if (line.contains("surya")) {
                     line = "Poco X3";
@@ -231,13 +231,13 @@ public class ErfanGSIs extends Command {
                     line = "Redmi Note 7";
                 }
                 if (line.contains("SM6250")) {
-                    line = "MiAtoll (9S and others...)";
+                    line = "Redmi Note 9 Pro";
                 }
                 if (line.contains("qssi")) {
-                    line = "Qualcomm Single System Image (Generic)";
+                    line = "Generic Device Name";
                 }
                 if (line.contains("mainline")) {
-                    line = "AOSP/Pixel (Mainline) Device";
+                    line = "Pixel Device";
                 }
                 fullLogs.append(line);
             }
@@ -259,7 +259,7 @@ public class ErfanGSIs extends Command {
         );
         boolean success = false;
         StringBuilder fullLogs = new StringBuilder();
-        fullLogs.append("Starting process!");
+        fullLogs.append("--> Building GSI!");
         int id = bot.sendReply(fullLogs.toString(), update);
         try {
             pb.redirectErrorStream(true);
@@ -292,7 +292,7 @@ public class ErfanGSIs extends Command {
 
                 // gzip files!
 
-                fullLogs.append("\n").append("Creating gzip...");
+                fullLogs.append("\n").append("--> Compressing GSI!");
                 bot.editMessage(fullLogs.toString(), update, id);
 
                 String[] gzipFiles = listFilesForFolder(new File("ErfanGSIs" + "/output"));
@@ -329,7 +329,7 @@ public class ErfanGSIs extends Command {
 
                 // arr == full path
 
-                fullLogs.append("\n").append("Sending files to SF...");
+                fullLogs.append("\n").append("--> Uploading GSI!");
                 bot.editMessage(fullLogs.toString(), update, id);
 
                 String re = new sfUpload().uploadGsi(arr, gsiCmdObj.getGsi());
@@ -342,34 +342,31 @@ public class ErfanGSIs extends Command {
 
                 StringBuilder generateLinks = new StringBuilder();
 
-                generateLinks.append("\n*Download* - ").append("[Folder](https://sourceforge.net/projects/").append(sfsetup.getSfConf("bot-sf-proj")).append("/files/").append(re).append(")\n");
+                generateLinks.append("\n*Download*\n");
 
                 if (!aonly.toString().trim().equals("")) {
-                    generateLinks.append("[Aonly](https://sourceforge.net/projects/").append(sfsetup.getSfConf("bot-sf-proj")).append("/files/").append(re).append(aonly.toString()).append(")");
+                    generateLinks.append("[Aonly (Non-SAR) Link](https://sourceforge.net/projects/").append(sfsetup.getSfConf("bot-sf-proj")).append("/files/").append(re).append(aonly.toString()).append(")");
                 }
                 if (!aonly.toString().trim().equals("") && !ab.toString().trim().equals("")) {
                     generateLinks.append(" | ");
                 }
                 if (!ab.toString().trim().equals("")) {
-                    generateLinks.append("[AB](https://sourceforge.net/projects/").append(sfsetup.getSfConf("bot-sf-proj")).append("/files/").append(re).append(ab.toString()).append(")");
+                    generateLinks.append("[AB (SAR) Link](https://sourceforge.net/projects/").append(sfsetup.getSfConf("bot-sf-proj")).append("/files/").append(re).append(ab.toString()).append(")");
                 }
 
                 String descGSI = "" + new FileTools().readFile(infoGSI).trim();
 
-                bot.sendReply("Job Finished", update);
+                bot.sendReply("--> GSI Uploaded!", update);
 
                 try {
                     if (sfsetup.getSfConf("bot-send-announcement").equals("true")) {
                         try {
-                            bot.sendMessage2ID("*"+ "Requested " + gsiCmdObj.getGsi() + " GSI*"
-                                    + "\n*From " + getModelOfOutput() + "*"
-                                    + "\n\n*Information:*\n`" + descGSI
-                                    + "`\n" + generateLinks.toString()
-                                    + "\n\n*Credits:*\n[Erfan Abdi](https://github.com/erfanoabdi)"
-                                    + " | " + "[Nippon](https://github.com/nnippon)"
-                                    + " | " + "[Vega](http://github.com/VegaBobo)"
+                            bot.sendMessage2ID("*"+ gsiCmdObj.getGsi() + " GSI*"
+                                    + "\n*Ported From* " + getModelOfOutput() + "\n" + generateLinks.toString()
+                                    + "\n\n*File not found?* try later\n\n*Information*\n`" + descGSI
+                                    + "`\n\n*[Credits & Contributors](https://github.com/nnippon/ErfanGSIs#credits)"
                                     + "\n\n" // Sone space here without content
-                                    + "*Join*:\n[Channel](https://t.me/yashgsi) | [Group](https://t.me/yashgsisupport)"
+                                    + "*Like, Share & Subscribe!*\n[Channel](https://t.me/nippongsi) | [Group](https://t.me/nippongsi_support)"
                                     , Long.parseLong(sfsetup.getSfConf("bot-announcement-id")));
                         } catch (Exception e) {
                             LOGGER.error("bot-announcement-id looks wrong or not set");
