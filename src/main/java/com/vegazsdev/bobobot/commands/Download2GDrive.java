@@ -19,6 +19,7 @@ import java.util.ArrayList;
 import java.util.Objects;
 import java.util.stream.Stream;
 
+@SuppressWarnings("unused")
 public class Download2GDrive extends Command {
 
     private static final Logger LOGGER = (Logger) LogManager.getLogger(Download2GDrive.class);
