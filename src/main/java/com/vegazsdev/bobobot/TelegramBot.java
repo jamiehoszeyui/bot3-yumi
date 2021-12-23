@@ -19,11 +19,12 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Objects;
 
+@SuppressWarnings("rawtypes")
 public class TelegramBot extends TelegramLongPollingBot {
 
     private static final Logger LOGGER = (Logger) LogManager.getLogger(TelegramBot.class);
 
-    private Bot bot;
+    private final Bot bot;
     private ArrayList<Class> commandClasses;
 
     TelegramBot(Bot bot, ArrayList<Class> commandClasses) {
@@ -62,7 +63,7 @@ public class TelegramBot extends TelegramLongPollingBot {
 
                     if (msg.startsWith(Objects.requireNonNull(chatPrefs.getHotkey()))) {
 
-                        for (CommandWithClass cmds : getActiveCommandsAsCmdObject()) {
+                        for (CommandWithClass commandWithClass : getActiveCommandsAsCmdObject()) {
 
                             String adjustCommand = msg.replace(Objects.requireNonNull(chatPrefs.getHotkey()), "");
 
@@ -70,15 +71,15 @@ public class TelegramBot extends TelegramLongPollingBot {
                                 adjustCommand = adjustCommand.split(" ")[0];
                             }
 
-                            if (cmds.getAlias().equals(adjustCommand)) {
+                            if (commandWithClass.getAlias().equals(adjustCommand)) {
                                 try {
-                                    runMethod(cmds.getClazz(), update, tBot, chatPrefs);
+                                    runMethod(commandWithClass.getClazz(), update, tBot, chatPrefs);
                                     LOGGER.info(Objects.requireNonNull(XMLs.getFromStringsXML(Main.DEF_CORE_STRINGS_XML, "command_ok"))
                                             .replace("%1", String.valueOf(usrId))
                                             .replace("%2", adjustCommand));
                                 } catch (Exception e) {
                                     LOGGER.error(Objects.requireNonNull(XMLs.getFromStringsXML(Main.DEF_CORE_STRINGS_XML, "command_failure"))
-                                            .replace("%1", cmds.getAlias())
+                                            .replace("%1", commandWithClass.getAlias())
                                             .replace("%2", e.getMessage()), e);
                                 }
                             }
@@ -90,13 +91,13 @@ public class TelegramBot extends TelegramLongPollingBot {
     }
 
     public int sendMessage(String msg, Update update) {
-        SendMessage sndmsg = new SendMessage();
-        sndmsg.setText(msg);
-        sndmsg.setChatId(String.valueOf(update.getMessage().getChatId()));
-        sndmsg.enableMarkdown(true);
-        sndmsg.disableWebPagePreview();
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setText(msg);
+        sendMessage.setChatId(String.valueOf(update.getMessage().getChatId()));
+        sendMessage.enableMarkdown(true);
+        sendMessage.disableWebPagePreview();
         try {
-            return execute(sndmsg).getMessageId();
+            return execute(sendMessage).getMessageId();
         } catch (TelegramApiException e) {
             LOGGER.error(e.getMessage(), e);
         }
@@ -105,14 +106,14 @@ public class TelegramBot extends TelegramLongPollingBot {
 
 
     public int sendReply(String msg, Update update) {
-        SendMessage sndmsg = new SendMessage();
-        sndmsg.setText(msg);
-        sndmsg.setChatId(String.valueOf(update.getMessage().getChatId()));
-        sndmsg.enableMarkdown(true);
-        sndmsg.setReplyToMessageId(update.getMessage().getMessageId());
-        sndmsg.disableWebPagePreview();
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setText(msg);
+        sendMessage.setChatId(String.valueOf(update.getMessage().getChatId()));
+        sendMessage.enableMarkdown(true);
+        sendMessage.setReplyToMessageId(update.getMessage().getMessageId());
+        sendMessage.disableWebPagePreview();
         try {
-            return execute(sndmsg).getMessageId();
+            return execute(sendMessage).getMessageId();
         } catch (TelegramApiException e) {
             LOGGER.error(e.getMessage(), e);
         }
@@ -120,13 +121,13 @@ public class TelegramBot extends TelegramLongPollingBot {
     }
 
     public int sendMessage2ID(String msg, long id) {
-        SendMessage sndmsg = new SendMessage();
-        sndmsg.setText(msg);
-        sndmsg.setChatId(String.valueOf(id));
-        sndmsg.enableMarkdown(true);
-        sndmsg.disableWebPagePreview();
+        SendMessage sendMessage = new SendMessage();
+        sendMessage.setText(msg);
+        sendMessage.setChatId(String.valueOf(id));
+        sendMessage.enableMarkdown(true);
+        sendMessage.disableWebPagePreview();
         try {
-            return execute(sndmsg).getMessageId();
+            return execute(sendMessage).getMessageId();
         } catch (TelegramApiException e) {
             LOGGER.error(e.getMessage(), e);
         }
