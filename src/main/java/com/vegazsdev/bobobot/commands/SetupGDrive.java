@@ -19,6 +19,7 @@ import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Objects;
 
+@SuppressWarnings("unused")
 public class SetupGDrive extends Command {
 
     private static final Logger LOGGER = (Logger) LogManager.getLogger(SetupGDrive.class);
