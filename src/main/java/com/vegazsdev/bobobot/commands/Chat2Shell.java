@@ -13,6 +13,7 @@ import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.Objects;
 
+@SuppressWarnings("unused")
 public class Chat2Shell extends Command {
 
     private static final Logger LOGGER = (Logger) LogManager.getLogger(Chat2Shell.class);
