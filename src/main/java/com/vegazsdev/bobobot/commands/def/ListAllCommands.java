@@ -5,6 +5,7 @@ import com.vegazsdev.bobobot.core.Command;
 import com.vegazsdev.bobobot.db.PrefObj;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
+@SuppressWarnings("unused")
 public class ListAllCommands extends Command {
 
     public ListAllCommands() {
