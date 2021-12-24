@@ -8,7 +8,7 @@ import com.vegazsdev.bobobot.db.PrefObj;
 import com.vegazsdev.bobobot.utils.XMLs;
 import org.telegram.telegrambots.meta.api.objects.Update;
 
-
+@SuppressWarnings("unused")
 public class ChangeLang extends Command {
 
     public ChangeLang() {
@@ -30,14 +30,14 @@ public class ChangeLang extends Command {
                 if (msg.length() < 3) {
                     String hello = XMLs.getFromStringsXML("strings-" + msg + ".xml", "hello");
                     if (hello == null) {
-                        bot.sendMessage("Language not avaiable, type !chlang to see avaiable languages", update);
+                        bot.sendMessage("Language not available, type !chlang to see available languages", update);
                     } else {
                         DbThings.changeLanguage(prefs.getId(), "strings-" + msg + ".xml");
                         prefs = DbThings.selectIntoPrefsTable(prefs.getId());
                         bot.sendMessage(prefs.getString("lang_updated"), update);
                     }
                 } else {
-                    bot.sendMessage("Language not avaiable, type !chlang to see avaiable languages", update);
+                    bot.sendMessage("Language not available, type !chlang to see available languages", update);
                 }
             }
         } else {
