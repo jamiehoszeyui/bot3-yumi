@@ -236,6 +236,9 @@ public class ErfanGSIs extends Command {
                 if (line.contains("qssi")) {
                     line = "Generic Device Name";
                 }
+                if (line.contains("mssi")) {
+                    line = "Generic Device Name";
+                }
                 if (line.contains("mainline")) {
                     line = "Pixel Device";
                 }
@@ -292,7 +295,7 @@ public class ErfanGSIs extends Command {
 
                 // gzip files!
 
-                fullLogs.append("\n").append("--> Compressing GSI!");
+                fullLogs.append("\n").append("==> Compressing GSI!");
                 bot.editMessage(fullLogs.toString(), update, id);
 
                 String[] gzipFiles = listFilesForFolder(new File("ErfanGSIs" + "/output"));
@@ -345,13 +348,13 @@ public class ErfanGSIs extends Command {
                 generateLinks.append("\n*Download*\n");
 
                 if (!aonly.toString().trim().equals("")) {
-                    generateLinks.append("[Aonly (Non-SAR) Link](https://sourceforge.net/projects/").append(sfsetup.getSfConf("bot-sf-proj")).append("/files/").append(re).append(aonly.toString()).append(")");
+                    generateLinks.append("[Aonly GSI](https://sourceforge.net/projects/").append(sfsetup.getSfConf("bot-sf-proj")).append("/files/").append(re).append(aonly.toString()).append(")");
                 }
                 if (!aonly.toString().trim().equals("") && !ab.toString().trim().equals("")) {
                     generateLinks.append(" | ");
                 }
                 if (!ab.toString().trim().equals("")) {
-                    generateLinks.append("[AB (SAR) Link](https://sourceforge.net/projects/").append(sfsetup.getSfConf("bot-sf-proj")).append("/files/").append(re).append(ab.toString()).append(")");
+                    generateLinks.append("[AB GSI](https://sourceforge.net/projects/").append(sfsetup.getSfConf("bot-sf-proj")).append("/files/").append(re).append(ab.toString()).append(")");
                 }
 
                 String descGSI = "" + new FileTools().readFile(infoGSI).trim();
@@ -362,11 +365,13 @@ public class ErfanGSIs extends Command {
                     if (sfsetup.getSfConf("bot-send-announcement").equals("true")) {
                         try {
                             bot.sendMessage2ID("*"+ gsiCmdObj.getGsi() + " GSI*"
-                                    + "\n*Ported From* " + getModelOfOutput() + "\n" + generateLinks.toString()
+                                    + "\n*From* " + getModelOfOutput() + "\n" + generateLinks.toString()
                                     + "\n\n*File not found?* try later\n\n*Information*\n`" + descGSI
-                                    + "`\n\n*[Credits & Contributors](https://github.com/nnippon/ErfanGSIs#credits)"
+                                    + "\n\n*Credits:*\n[Erfan Abdi](https://github.com/erfanoabdi)"
+                                    + " | " + "[Nippon](https://github.com/nnippon)"
+                                    + " | " + "[Vega](http://github.com/VegaBobo)"
                                     + "\n\n" // Sone space here without content
-                                    + "*Like, Share & Subscribe!*\n[Channel](https://t.me/nippongsi) | [Group](https://t.me/nippongsi_support)"
+                                    + "*Join*:\n[Channel](https://t.me/minati_gsi) | [Group](https://t.me/minatigsisupport)"
                                     , Long.parseLong(sfsetup.getSfConf("bot-announcement-id")));
                         } catch (Exception e) {
                             LOGGER.error("bot-announcement-id looks wrong or not set");
